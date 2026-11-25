@@ -13,6 +13,11 @@ FILE_SQL = "sql/database.sql"
 
 
 def apri_database():
+    # Se il file SQL non si trova, il programma è stato avviato dalla cartella sbagliata
+    if not os.path.exists(FILE_SQL):
+        print("Errore: file sql/database.sql non trovato.")
+        print("Avviare il programma dalla cartella del progetto con: python src/main.py")
+        return None
     nuovo = not os.path.exists(FILE_DB)
     con = sqlite3.connect(FILE_DB)
     # In SQLite i vincoli di chiave esterna vanno attivati a ogni connessione
@@ -266,6 +271,8 @@ def visualizza_report(con):
 
 def main():
     con = apri_database() #Qua lo uso per aprire la connessione al database.
+    if con is None:
+        return
     print("Benvenuto nel Sistema di Gestione delle Spese Personali e del Budget.")
     scelta = ""
     while scelta != "5":
